@@ -1,3 +1,4 @@
+import { CircularProgress } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import Movie from './Movie'
 import './styles.css'
@@ -15,12 +16,15 @@ const Movies:React.FC = props => {
         })
         
         Promise.all(promises).then((movies: any) => {
-            setMovies(movies.map((movie: any) => movie.Search))
+            //setMovies(movies.map((movie: any) => movie.Search))
         })
     }, [])
 
-    console.log(movies)
-
+    if(movies.length === 0){
+        return <div className="loader">
+        <CircularProgress />
+        </div>
+    }
     return <div className="movies">
         {movies.flat(2).map((movie: any) => {
             return <Movie 
