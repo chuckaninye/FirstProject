@@ -1,7 +1,7 @@
 import { AppBar, Badge, IconButton, InputBase, Toolbar, Typography } from '@material-ui/core'
 import { Menu as MenuIcon, Search as SearchIcon, Mail as MailIcon, Notifications as NotificationsIcon, More as MoreIcon, AccountCircle } from '@material-ui/icons'
 import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import React from 'react'
+import React, { useState } from 'react'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,6 +47,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Header: React.FC = props => {
     const styles = useStyles()
+    const [inputVal, setInputVal] = useState<string>('')
+
     return(<AppBar position="static">
         <Toolbar>
           <IconButton
