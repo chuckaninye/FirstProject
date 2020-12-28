@@ -6,11 +6,13 @@ import Movies from './components/Movies'
 
 const App: React.FC = () => {
 
+  const [movies, setMovies] = useState([])
+  const [tempMovies, setTempMovies] = useState([])
 
   return (
     <div className="App">
-		  <Header />
-      <Movies />
+		  <Header movies= {movies} setMovies = {setTempMovies} />
+      <Movies movies= {tempMovies} setMovies = {setMovies} setTempMovies={setTempMovies}/>
     </div>
   );
 }

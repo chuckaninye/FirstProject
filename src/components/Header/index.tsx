@@ -45,10 +45,20 @@ const useStyles = makeStyles((theme: Theme) =>
   }) 
 )
 
-const Header: React.FC = props => {
+type Props = {
+  movies: any
+  setMovies: any
+}
+
+const Header: React.FC<Props> = props => {
     const styles = useStyles()
     const [inputVal, setInputVal] = useState<string>('')
 
+    function updateMovies(search: string){
+      setInputVal(search)
+      console.log(props.movies)
+      props.setMovies(props.movies.filter((movie: any) => movie.title.toLowerCase().includes(search)))
+    }
     return(<AppBar position="static">
         <Toolbar>
           <IconButton
@@ -68,6 +78,8 @@ const Header: React.FC = props => {
             <InputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              value={inputVal}
+              onChange={e => updateMovies(e.target.value)}
               classes={{
                 root: styles.inputRoot,
                 input: styles.inputInput,

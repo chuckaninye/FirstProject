@@ -8,9 +8,13 @@ import './styles.css'
 const API_KEY = 'cdf468f0'
 const series = ['avengers', 'star wars', 'iron man', 'harry potter']
 
-const Movies:React.FC = props => {
-    
-    const [movies, setMovies] = useState([])
+type Props = {
+    movies: any
+    setMovies: any
+    setTempMovies: any
+}
+
+const Movies:React.FC<Props> = props => {
     useEffect(() => {
         const promises = series.map(series => {
             return fetch(`http://www.omdbapi.com/?s=${encodeURIComponent(series)}&apikey=${API_KEY}&page=1`)
@@ -18,23 +22,32 @@ const Movies:React.FC = props => {
         })
         
         Promise.all(promises).then((movies: any) => {
-            setMovies(movies.map((movies: any) => movies.Search))
+           const updatedMovies: any = movies.map((movie: any) => movie.Search).flat(2).map((movie: any) => ({
+               title: movie.Title,
+               year: movie.Year,
+               image: movie.Poster,
+               imdb: movie.imdbID
+           }))
+
+           props.setMovies(updatedMovies)
+           props.setTempMovies(updatedMovies)
         })
+
     }, [])
 
-    //if(movies.length === 0){
-       // return <div className="loader">
-       // <CircularProgress />
-        //</div>
-   // }
+    if(props.movies.length === 0){
+        return <div className="loader">
+        <CircularProgress />
+        </div>
+    }
    
      return <div className="movies">
-         {movies.flat(2).map((movie: any) => {
+         {props.movies.map((movie: any) => {
              return <Movie 
                      key={movie.imdbID}
-                     title={movie.Title}
-                     year={movie.Year}
-                     image={movie.Poster}
+                     title={movie.title}
+                     year={movie.year}
+                     image={movie.image}
                 
                      />
          })
